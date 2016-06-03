@@ -118,30 +118,48 @@ class Colz:
         # self.hex = Colz.rgbToHex( self.r, self.g, self.b )
 
     @staticmethod
-    def hue2rgb ( p, q, t ):
-        if t < 0.0:
-             t += 1.0
-        if t > 1.0:
-            t -= 1.0
-        if t < 1.0 / 6.0:
-            return p + ( q - p ) * 6.0 * t
-        if t < 1.0 / 2.0:
-            return q
-        if t < 2.0 / 3.0:
-            return p + ( q - p ) * ( 2.0 / 3.0 - t ) * 6.0
-
-    @staticmethod
     def hslToRgb ( h, s, l ):
-        if s == 0.0:
-            r = g = b = l # achromatic
-        else:
-            q = l * ( 1.0 + s ) if l < 0.5 else l + s - l * s
-            p = 2.0 * l - q
-            r = Colz.hue2rgb( p, q, h + 1.0 / 3.0 )
-            g = Colz.hue2rgb( p, q, h )
-            b = Colz.hue2rgb( p, q, h - 1.0 / 3.0 )
-        print(r)
-        return [ r, g, b ]
+        r = l
+        g = l
+        b = l
+        v = l * ( 1.0 + s ) if l <= 0.5 else l + s - l * s
+        if ( v > 0 ):
+            m = l + l - v
+            sv = ( v -  m ) / v
+            h *= 6.0
+            sextant = int( math.floor( h ) )
+            fract = h - sextant
+            vsf = v * sv * fract
+            mid1 = m + vsf
+            mid2 = v - vsf
+
+            # Switch sextant
+            if sextant == 0:
+                r = v
+                g = mid1
+                b = m
+            elif sextant == 1:
+                r = mid2
+                g = v
+                b = m
+            elif sextant == 2:
+                r = m
+                g = v
+                b = mid1
+            elif sextant == 3:
+                r = m
+                g = mid2
+                b = v
+            elif sextant == 4:
+                r = mid1
+                g = m
+                b = v
+            elif sextant == 5:
+                r = v
+                g = m
+                b = mid2
+
+            return [ r, g, b ]
 
     @staticmethod
     def rgbToHsl( r, g, b ):
