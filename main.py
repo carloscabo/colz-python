@@ -8,7 +8,7 @@ c1 = Colz()
 # c1.setHsb( 65, 95, 44 )
 # c1.setHsb( 65, 95, 44 )
 c1.setHsl( 65, 90, 23 )
-# print(c1.rgba)
+print(c1.rgba)
 # print(c1.hex)
 # print(c1.hsla)
 

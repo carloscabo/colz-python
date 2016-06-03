@@ -39,8 +39,8 @@ class Colz:
         self.r = rgb[0]
         self.g = rgb[1]
         self.b = rgb[2]
-        self.rgb = [ *rgb ]
-        self.rgba = [ *rgb, self.a ]
+        self.rgb  = [ rgb[0], rgb[1], rgb[2] ]
+        self.rgba = [ rgb[0], rgb[1], rgb[2], self.a ]
 
         self.updateFromRgb( *rgb )
 
@@ -97,7 +97,7 @@ class Colz:
         """ Create color object from hsb / hsv values """
         self.reset()
         rgb = Colz.hsbToRgb( h, s, b )
-        self.setRgba( *rgb )
+        self.setRgba( rgb[0], rgb[1], rgb[2] )
 
     def updateFromRgb ( self ):
         hsl = self.rgbToHsl( self.r, self.g, self.b )
@@ -105,7 +105,7 @@ class Colz:
         self.s = hsl[1]
         self.l = hsl[2]
         self.hsl  = hsl
-        self.hsla = [ *hsl, self.a ]
+        self.hsla = [ hsl[0], hsl[1], hsl[2], self.a ]
 
     def updateFromHsl ( self ):
         rgb = Colz.hslToRgb( self.h, self.s, self.l )
@@ -113,7 +113,7 @@ class Colz:
         self.g = rgb[1]
         self.b = rgb[2]
         self.rgb = rgb
-        self.rgba = [ *rgb, self.a ]
+        self.rgba = [ rgb[0], rgb[1], rgb[2], self.a ]
         # Updates Hex
         # self.hex = Colz.rgbToHex( self.r, self.g, self.b )
 
@@ -131,13 +131,26 @@ class Colz:
             return p + ( q - p ) * ( 2.0 / 3.0 - t ) * 6.0
 
     @staticmethod
+    def hslToRgb ( h, s, l ):
+        if s == 0.0:
+            r = g = b = l # achromatic
+        else:
+            q = l * ( 1.0 + s ) if l < 0.5 else l + s - l * s
+            p = 2.0 * l - q
+            r = Colz.hue2rgb( p, q, h + 1.0 / 3.0 )
+            g = Colz.hue2rgb( p, q, h )
+            b = Colz.hue2rgb( p, q, h - 1.0 / 3.0 )
+        print(r)
+        return [ r, g, b ]
+
+    @staticmethod
     def rgbToHsl( r, g, b ):
         _max = max( r, g, b )
         _min = min( r, g, b )
         l = (_max + _min) / 2.0
 
         if _max == _min:
-            h = s = 0.0 # achromatic
+            h, s = 0.0 # achromatic
         else:
             d = _max - _min
             s = d / ( 2.0 - _max - _min ) if l > 0.5 else d / (_max + _min)
@@ -150,19 +163,6 @@ class Colz:
                 h = ( r - g ) / d + 4.0
             h /= 6.0
         return [ h, s, l ]
-
-    @staticmethod
-    def hslToRgb ( h, s, l ):
-        if s == 0.0:
-            r = g = b = l # achromatic
-        else:
-            q = l * ( 1.0 + s ) if l < 0.5 else l + s - l * s
-            p = 2.0 * l - q
-            r = Colz.hue2rgb( p, q, h + 1.0 / 3.0 )
-            g = Colz.hue2rgb( p, q, h )
-            b = Colz.hue2rgb( p, q, h - 1.0 / 3.0 )
-        print(r)
-        return [ r, g, b ]
 
     @staticmethod
     def rgbToHsv ( r, g, b ):
