@@ -33,7 +33,7 @@ class Colz:
             hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
         rgb = []
         for i in range(0, 6, 2):
-            rgb.append( int(hex[i:i+2], 16) / 255.0 )
+            rgb.append( int( hex[i:i+2], 16) / 255.0 )
 
         self.hex = hex
         self.r = rgb[0]
@@ -92,14 +92,13 @@ class Colz:
         self.updateFromHsl()
 
     def setHsv ( self, h, s, b ):
-        self.setHsb( h, s, b )
-    def setHsb ( self, h, s, b ):
         """ Create color object from hsb / hsv values """
         self.reset()
         rgb = Colz.hsbToRgb( h, s, b )
         self.setRgba( rgb[0], rgb[1], rgb[2] )
 
     def updateFromRgb ( self ):
+        """ Generates hsl equivalencies from rgb """
         hsl = self.rgbToHsl( self.r, self.g, self.b )
         self.h = hsl[0]
         self.s = hsl[1]
@@ -108,6 +107,7 @@ class Colz:
         self.hsla = [ hsl[0], hsl[1], hsl[2], self.a ]
 
     def updateFromHsl ( self ):
+        """ Generates rgb equivalencies from hsl """
         rgb = Colz.hslToRgb( self.h, self.s, self.l )
         self.r = rgb[0]
         self.g = rgb[1]
@@ -115,10 +115,62 @@ class Colz:
         self.rgb = rgb
         self.rgba = [ rgb[0], rgb[1], rgb[2], self.a ]
         # Updates Hex
-        # self.hex = Colz.rgbToHex( self.r, self.g, self.b )
+        self.hex = Colz.rgbToHex( rgb[0], rgb[1], rgb[2] )
+
+    # Utils, setters
+
+    def setHue ( self, newhue ):
+        """ Modifies hue value of Colz object """
+        if  isinstance( newhue, int ):
+            newhue /= 360.0
+        self.h = newhue
+        self.hsl[0]  = newhue
+        self.hsla[0] = newhue
+        self.updateFromHsl()
+
+    def setSat ( self, newsat ):
+        """ Modifies sat value of Colz object """
+        if  isinstance( newsat, int ):
+            newsat /= 100.0
+        self.s = newsat
+        self.hsl[1]  = newsat
+        self.hsla[1] = newsat
+        self.updateFromHsl()
+
+    def setLum ( self, newlum ):
+        """ Modifies lum value of Colz object """
+        if  isinstance( newlum, int ):
+            newlum /= 100
+        self.l = newlum
+        self.hsl[2]  = newlum
+        self.hsla[2] = newlum
+        self.updateFromHsl()
+
+    def setAlpha ( self, newalpha ):
+        """ Modifies alpha value of Colz object """
+        if  isinstance( newalpha, int ):
+            raise ValueError('Expects a float value in the [ 0.0 - 1.0 ] range!')
+        self.a = newalpha
+        self.hsla[3] = newalpha
+        self.rgba[3] = newalpha
+
+    def rotateHue ( self, hue_inc ):
+        """ Rotates the hue value of Colz object """
+        if  isinstance( hue_inc, int ):
+            hue_inc /= 360.0
+        newhue = self.h + hue_inc
+        if newhue > 360.0:
+            newhue -= 360.0
+        self.h += newhue
+        self.hsl[0]  = self.h
+        self.hsla[0] = self.h
+        self.updateFromHsl()
+
+    # Statioc methods
 
     @staticmethod
     def hslToRgb ( h, s, l ):
+        """ Converts hsl color to rgb list """
         r = l
         g = l
         b = l
@@ -163,6 +215,7 @@ class Colz:
 
     @staticmethod
     def rgbToHsl( r, g, b ):
+        """ Converts rgb color to hsl list """
         _max = max( r, g, b )
         _min = min( r, g, b )
         l = (_max + _min) / 2.0
@@ -184,10 +237,7 @@ class Colz:
 
     @staticmethod
     def rgbToHsv ( r, g, b ):
-        Colz.rgbToHsb( r, g, b )
-
-    @staticmethod
-    def rgbToHsb ( r, g, b ):
+        """ Converts rgb color to hsv list """
         _max = max( r, g, b )
         _min = min( r, g, b )
         v = _max
@@ -208,11 +258,12 @@ class Colz:
 
     @staticmethod
     def rgbToHex ( r, g, b ):
-        return "%02x%02x%02x" % ( int( r * 255.0 ), int( g * 255.0 ), int( b * 255.0 ))
+        """ Converts rgb color to hex string """
+        return "%02x%02x%02x" % ( round( r * 255.0 ), round( g * 255.0 ), round( b * 255.0 ))
 
     @staticmethod
-    def rgbToHsb ( r, g, b ):
-
+    def rgbToHsv ( r, g, b ):
+        """ Converts rgb color to hsv list """
         if  isinstance( r, int ):
             r /= 255.0
         if  isinstance( g, int ):
@@ -246,8 +297,8 @@ class Colz:
         return [ h, s, v ]
 
     @staticmethod
-    def hsbToRgb ( h, s, v ):
-
+    def hsvToRgb ( h, s, v ):
+        """ Converts hsv color to rgb list """
         if  isinstance( h, int ):
             h /= 360.0
         if  isinstance( s, int ):
@@ -304,38 +355,34 @@ class Colz:
 
     @staticmethod
     def hsbToHsl ( h, s, b ):
-        """ Converts Hsv / Hsb to Rgb """
+        """ Converts hsv / hsb to rgb """
         return Colz.rgbToHsl( Colz.hsbToRgb( h, s, b ) )
 
-    # Utils, setters
+    @staticmethod
+    def lerp ( v1, v2, amt ):
+        """ Generic linear interpolation """
+        print('eo')
 
-    def setHue ( self, newhue ):
-        if  isinstance( newhue, int ):
-            newhue /= 360.0
-        self.h = newhue
-        self.hsl[0]  = newhue
-        self.hsla[0] = newhue
-        self.updateFromHsl()
-
-    def setSat ( self, newsat ):
-        if  isinstance( newsat, int ):
-            newsat /= 100.0
-        self.s = newsat
-        self.hsl[1]  = newsat
-        self.hsla[1] = newsat
-        self.updateFromHsl()
-
-    def setLum ( self, newlum ):
-        if  isinstance( newlum, int ):
-            newlum /= 100
-        self.l = newlum
-        self.hsl[2]  = newlum
-        self.hsla[2] = newlum
-        self.updateFromHsl()
-
-    def setAlpha ( self, newalpha ):
-        if  isinstance( newalpha, int ):
-            raise ValueError('Expects a float value in the [ 0.0 - 1.0 ] range!')
-        self.a = newalpha
-        self.hsla[3] = newalpha
-        self.rgba[3] = newalpha
+    @staticmethod
+    def mixHslColors ( h1, s1, l1, h2, s2, l2, amt ):
+        """ Mixes or interpolates 2 colors in hsl format """
+        if isinstance( h1, Colz ):
+            s1 = h1.s
+            l1 = h1.l
+            h1 = h1.h
+        if isinstance( h2, Colz ):
+            s2 = h2.s
+            l2 = h2.l
+            h2 = h2.h
+        if  isinstance( h1, int ):
+            h1 /= 360.0
+        if  isinstance( s1, int ):
+            s1 /= 100.0
+        if  isinstance( l1, int ):
+            l1 /= 100.0
+        if  isinstance( h2, int ):
+            h2 /= 360.0
+        if  isinstance( s2, int ):
+            s2 /= 100.0
+        if  isinstance( l2, int ):
+            l2 /= 100.0
