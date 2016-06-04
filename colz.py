@@ -44,11 +44,11 @@ class Colz:
 
         self.updateFromRgb()
 
-    def setRgb ( self, r, g, b ):
+    def setRgb ( self, r, g = 0.0, b = 0.0 ):
         """ Creates color object from rgb values """
         self.setRgba( r, g, b )
 
-    def setRgba ( self, r, g, b, a = 1.0 ):
+    def setRgba ( self, r, g = 0.0, b = 0.0, a = 1.0 ):
         """Creates color object from rgba values """
         self.reset()
 
@@ -70,8 +70,8 @@ class Colz:
         self.g = rgba[1]
         self.b = rgba[2]
         self.a = rgba[3]
-        self.rgb = [ rgba[0], rgba[1], rgba[2] ]
-        self.rgba = rgba
+        self.rgb  = [ rgba[0], rgba[1], rgba[2] ]
+        self.rgba = [ rgba[0], rgba[1], rgba[2], rgba[3] ]
         self.hex = Colz.rgbToHex( rgba[0], rgba[1], rgba[2] )
 
         self.updateFromRgb()
@@ -213,8 +213,15 @@ class Colz:
     # Static methods
 
     @staticmethod
-    def hslToRgb ( h, s, l ):
+    def hslToRgb ( h, s = 0.0, l = 0.0 ):
         """ Converts hsl color to rgb list """
+
+        # Check if argument is list
+        if isinstance(h, list):
+            s = h[1]
+            l = h[2]
+            h = h[0]
+
         r = l
         g = l
         b = l
@@ -258,8 +265,15 @@ class Colz:
             return [ r, g, b ]
 
     @staticmethod
-    def rgbToHsl( r, g, b ):
+    def rgbToHsl( r, g = 0.0, b = 0.0 ):
         """ Converts rgb color to hsl list """
+
+        # Check if argument is list
+        if isinstance(r, list):
+            g = r[1]
+            b = r[2]
+            r = r[0]
+
         _max = max( r, g, b )
         _min = min( r, g, b )
         l = (_max + _min) / 2.0
@@ -282,8 +296,15 @@ class Colz:
         return [ h, s, l ]
 
     @staticmethod
-    def rgbToHsv ( r, g, b ):
+    def rgbToHsv ( r, g = 0.0, b = 0.0 ):
         """ Converts rgb color to hsv list """
+
+        # Check if argument is list
+        if isinstance(r, list):
+            g = r[1]
+            b = r[2]
+            r = r[0]
+
         _max = max( r, g, b )
         _min = min( r, g, b )
         v = _max
@@ -303,13 +324,29 @@ class Colz:
         return [ h, s, v ]
 
     @staticmethod
-    def rgbToHex ( r, g, b ):
+    def rgbToHex ( r, g = 0.0, b = 0.0 ):
         """ Converts rgb color to hex string """
-        return "%02x%02x%02x" % ( round( r * 255.0 ), round( g * 255.0 ), round( b * 255.0 ))
+        # Check if argument is list
+        if isinstance(r, list):
+            g = r[1]
+            b = r[2]
+            r = r[0]
+        if  isinstance( r, float ):
+            r *= 255.0
+        if  isinstance( g, float ):
+            g *= 255.0
+        if  isinstance( b, float ):
+            b *= 255.0
+        return "%02x%02x%02x" % ( round( r ), round( g ), round( b ))
 
     @staticmethod
-    def rgbToHsv ( r, g, b ):
+    def rgbToHsv ( r, g = 0.0, b = 0.0 ):
         """ Converts rgb color to hsv list """
+        # Check if argument is list
+        if isinstance(r, list):
+            g = r[1]
+            b = r[2]
+            r = r[0]
         if  isinstance( r, int ):
             r /= 255.0
         if  isinstance( g, int ):
@@ -343,8 +380,13 @@ class Colz:
         return [ h, s, v ]
 
     @staticmethod
-    def hsvToRgb ( h, s, v ):
+    def hsvToRgb ( h, s = 0.0, v = 0.0 ):
         """ Converts hsv color to rgb list """
+        # Check if first argument is list
+        if isinstance(h, list):
+            s = h[1]
+            v = h[2]
+            h = h[0]
         if  isinstance( h, int ):
             h /= 360.0
         if  isinstance( s, int ):
@@ -400,8 +442,13 @@ class Colz:
     #     Colz.hsbToHsl ( h, s, b )
 
     @staticmethod
-    def hsbToHsl ( h, s, b ):
+    def hsbToHsl ( h, s = 0.0, b = 0.0 ):
         """ Converts hsv / hsb to rgb """
+        # Check if first argument is list
+        if isinstance(h, list):
+            s = h[1]
+            b = h[2]
+            h = h[0]
         return Colz.rgbToHsl( Colz.hsbToRgb( h, s, b ) )
 
     @staticmethod
