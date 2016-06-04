@@ -42,7 +42,7 @@ class Colz:
         self.rgb  = [ rgb[0], rgb[1], rgb[2] ]
         self.rgba = [ rgb[0], rgb[1], rgb[2], self.a ]
 
-        self.updateFromRgb( *rgb )
+        self.updateFromRgb()
 
     def setRgb ( self, r, g, b ):
         """ Creates color object from rgb values """
@@ -51,6 +51,14 @@ class Colz:
     def setRgba ( self, r, g, b, a = 1.0 ):
         """Creates color object from rgba values """
         self.reset()
+
+        # Check if argument is list
+        if isinstance(r, list):
+            g = r[1]
+            b = r[2]
+            if len(r) == 4: # Alpha in the list
+                a = r[3]
+            r = r[0]
 
         # If any component is int ( 0 - 255 ) convert to float ( 0 - 1 )
         rgba = [ r, g, b, a ]
@@ -68,13 +76,21 @@ class Colz:
 
         self.updateFromRgb()
 
-    def setHsl ( self, h, s, l ):
+    def setHsl ( self, h, s = 0.0, l = 0.0 ):
         """ Create color object from hsl values """
         self.setHsla( h, s, l )
 
-    def setHsla ( self, h, s, l, a = 1.0 ):
+    def setHsla ( self, h, s = 0.0, l = 0.0, a = 1.0 ):
         """ Create color object from hsl values """
         self.reset()
+
+        # Check if argument is list
+        if isinstance(h, list):
+            s = h[1]
+            l = h[2]
+            if len(h) == 4: # Alpha in the list
+                a = h[3]
+            h = h[0]
 
         # If any component is int ( 0 - 255 ) convert to float ( 0 - 1)
         hsla = [ h, s, l, a ]
@@ -91,10 +107,17 @@ class Colz:
 
         self.updateFromHsl()
 
-    def setHsv ( self, h, s, b ):
+    def setHsv ( self, h, s = 0.0, v = 0.0 ):
         """ Create color object from hsb / hsv values """
         self.reset()
-        rgb = Colz.hsbToRgb( h, s, b )
+
+        # Check if first argument is list
+        if isinstance(h, list):
+            s = h[1]
+            v = h[2]
+            h = h[0]
+
+        rgb = Colz.hsvToRgb( h, s, v )
         self.setRgba( rgb[0], rgb[1], rgb[2] )
 
     def updateFromRgb ( self ):
@@ -159,14 +182,35 @@ class Colz:
         if  isinstance( hue_inc, int ):
             hue_inc /= 360.0
         newhue = self.h + hue_inc
-        if newhue > 360.0:
-            newhue -= 360.0
+        if newhue > 1.0:
+            newhue -= 1.0
         self.h += newhue
         self.hsl[0]  = self.h
         self.hsla[0] = self.h
         self.updateFromHsl()
 
-    # Statioc methods
+    # Return array of integer values
+
+    def getRgbInt( self ):
+        r = int( round( self.r * 255.0 ) )
+        g = int( round( self.g * 255.0 ) )
+        b = int( round( self.b * 255.0 ) )
+        return [ r, g, b ]
+
+    def getHslInt( self ):
+        h = int( round( self.h * 360.0 ) )
+        s = int( round( self.s * 100.0 ) )
+        l = int( round( self.l * 100.0 ) )
+        return [ h, s, l ]
+
+    def getHsvInt( self ):
+        hsv = Colz.rgbToHsv( self.r, self.g, self.b )
+        h = int( round( hsv[0] * 360.0 ) )
+        s = int( round( hsv[1] * 100.0 ) )
+        v = int( round( hsv[2] * 100.0 ) )
+        return [ h, s, v ]
+
+    # Static methods
 
     @staticmethod
     def hslToRgb ( h, s, l ):
@@ -221,7 +265,9 @@ class Colz:
         l = (_max + _min) / 2.0
 
         if _max == _min:
-            h, s = 0.0 # achromatic
+            # achromatic
+            h = 0.0
+            s = 0.0
         else:
             d = _max - _min
             s = d / ( 2.0 - _max - _min ) if l > 0.5 else d / (_max + _min)
@@ -359,9 +405,16 @@ class Colz:
         return Colz.rgbToHsl( Colz.hsbToRgb( h, s, b ) )
 
     @staticmethod
-    def lerp ( v1, v2, amt ):
+    def angle_lerp ( a1, a2, amt ):
         """ Generic linear interpolation """
-        print('eo')
+        # shortest_angle = ( ( ( ( end - start ) % 360 ) + 540 ) % 360 ) - 180;
+        shortest_angle= ( ( ( ( a1 - a2 ) % 1.0 ) + 1.5 ) % 1.0 ) - 0.5;
+        return shortest_angle * amt
+
+    @staticmethod
+    def linear_lerp ( v1, v2, amt ):
+        """ Generic linear interpolation """
+        return v1 + (v2 - v1) * amt
 
     @staticmethod
     def mixHslColors ( h1, s1, l1, h2, s2, l2, amt ):
@@ -386,3 +439,9 @@ class Colz:
             s2 /= 100.0
         if  isinstance( l2, int ):
             l2 /= 100.0
+
+        h3 = Colz.angle_lerp( h1, h2, amt )
+        s3 = Colz.linear_lerp( s1, s2, amt )
+        l3 = Colz.linear_lerp( l1, l2, amt )
+
+        return [ h3, s3, l3 ]
