@@ -146,6 +146,8 @@ class Colz:
         """ Modifies hue value of Colz object """
         if  isinstance( newhue, int ):
             newhue /= 360.0
+        if newhue > 1.0:
+            newhue, whole = math.modf(newhue) # Keep decimal part
         self.h = newhue
         self.hsl[0]  = newhue
         self.hsla[0] = newhue
@@ -155,6 +157,10 @@ class Colz:
         """ Modifies sat value of Colz object """
         if  isinstance( newsat, int ):
             newsat /= 100.0
+        if newsat > 1.0:
+            newsat = 1.0
+        if newsat < 0.0:
+            newsat = 0.0
         self.s = newsat
         self.hsl[1]  = newsat
         self.hsla[1] = newsat
@@ -164,6 +170,10 @@ class Colz:
         """ Modifies lum value of Colz object """
         if  isinstance( newlum, int ):
             newlum /= 100
+        if newlum > 1.0:
+            newlum = 1.0
+        if newlum < 0.0:
+            newlum = 0.0
         self.l = newlum
         self.hsl[2]  = newlum
         self.hsla[2] = newlum
@@ -173,6 +183,10 @@ class Colz:
         """ Modifies alpha value of Colz object """
         if  isinstance( newalpha, int ):
             raise ValueError('Expects a float value in the [ 0.0 - 1.0 ] range!')
+        if newalpha > 1.0:
+            newalpha = 1.0
+        if newalpha < 0.0:
+            newalpha = 0.0
         self.a = newalpha
         self.hsla[3] = newalpha
         self.rgba[3] = newalpha
@@ -183,7 +197,7 @@ class Colz:
             hue_inc /= 360.0
         newhue = self.h + hue_inc
         if newhue > 1.0:
-            newhue -= 1.0
+            newhue, whole = math.modf(newhue) # Keep decimal part
         self.h += newhue
         self.hsl[0]  = self.h
         self.hsla[0] = self.h

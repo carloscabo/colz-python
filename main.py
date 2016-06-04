@@ -70,29 +70,99 @@ print( c1.hex )
 c1.setRgb( 0.7803921568627451, 0.4588235294117647, 0.5254901960784314 )
 print( c1.hsla )
 print( c1.getHslInt() )
+print( c1.getRgbInt() )
 print( c1.hex )
 
 c1.setRgba( [ 0.7803921568627451, 0.4588235294117647, 0.5254901960784314 ] )
 print( c1.hsla )
 print( c1.getHslInt() )
+print( c1.getRgbInt() )
 print( c1.hex )
 
 c1.setRgba( 0.7803921568627451, 0.4588235294117647, 0.5254901960784314, 0.35 )
 print( c1.hsla )
 print( c1.getHslInt() )
+print( c1.getRgbInt() )
 print( c1.hex )
 
 c1.setRgba( [ 0.7803921568627451, 0.4588235294117647, 0.5254901960784314, 0.35 ] )
 print( c1.hsla )
 print( c1.getHslInt() )
+print( c1.getRgbInt() )
 print( c1.hex )
 
-# c1.setHsb( 65, 95, 44 )
-# c1.setHsb( 65, 95, 44 )
-# c1.setHsl( 65, 90, 23 )
-# print(c1.rgba)
-# print(c1.hex)
-# print(c1.hsla)
+# Create from RGB
+print('# Modify HSL parameters')
+
+c1.setHsl( 348, 42, 62 )
+c1.setHue( 150 )
+print( c1.getHslInt() )
+c1.setHue( 510 )
+print( c1.getHslInt() )
+c1.setHue( 0.4166666666666667 )
+print( c1.getHslInt() )
+c1.setHue( 1.4166666666666667 )
+print( c1.getHslInt() )
+
+c1.setHsl( 348, 42, 62 )
+c1.setSat( 56 )
+print( c1.getHslInt() )
+print( c1.hsl )
+c1.setSat( 150 ) # Sat over 1.0 / 100 -> 1.0
+print( c1.getHslInt() )
+print( c1.hsl )
+c1.setSat( 0.56 )
+print( c1.getHslInt() )
+print( c1.hsl )
+c1.setSat( 1.5 ) # Sat over 1.0 / 100 -> 1.0
+print( c1.getHslInt() )
+print( c1.hsl )
+
+c1.setHsl( 348, 42, 62 )
+c1.setLum( 56 )
+print( c1.getHslInt() )
+print( c1.hsl )
+c1.setLum( 150 ) # Lum over 1.0 / 100 -> 1.0
+print( c1.getHslInt() )
+print( c1.hsl )
+c1.setLum( 0.56 )
+print( c1.getHslInt() )
+print( c1.hsl )
+c1.setLum( 1.5 ) # Lum over 1.0 / 100 -> 1.0
+print( c1.getHslInt() )
+print( c1.hsl )
+
+# Create from RGB
+print('# Modify Alpha')
+
+c1.setHsla( 0.9666666666666667, 0.42, 0.62, 0.5 )
+c1.setAlpha( 0.73 )
+print( c1.hsla )
+print( c1.rgba )
+print( c1.a )
+c1.setAlpha( 8.72 ) # Alpha over 1.0 -> 1.0
+print( c1.hsla )
+print( c1.rgba )
+print( c1.a )
+
+# Create from RGB
+print('# Rotate hue ( hsl )')
+
+c1.setHsl( 0.9666666666666667, 0.42, 0.62 ) # h = 348 (int)
+c1.setHue( 348 )
+c1.rotateHue( 20 )
+print( c1.h )
+c1.setHue( 348 )
+c1.rotateHue( 0.05555555555555555 )
+print( c1.h )
+c1.setHue( 348 )
+c1.rotateHue( -20 )
+print( c1.h )
+c1.setHue( 348 )
+c1.rotateHue( -0.05555555555555555 )
+print( c1.h )
+
+
 
 # print( Colz.hsbToRgb( 65, 90, 23 ) )
 # print( Colz.rgbToHsb( 104, 112, 6 ) )
