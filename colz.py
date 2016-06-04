@@ -535,7 +535,7 @@ class Colz:
         s3 = Colz.linearLerp( s1, s2, amt )
         l3 = Colz.linearLerp( l1, l2, amt )
 
-        if a1 and a2:
+        if 'a1' in locals() and 'a2' in locals():
             a3 = Colz.linearLerp( a1, a2, amt )
             return [ h3, s3, l3, a3 ]
 
