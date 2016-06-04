@@ -149,17 +149,42 @@ print( c1.a )
 print('# Rotate hue ( hsl )')
 
 c1.setHsl( 0.9666666666666667, 0.42, 0.62 ) # h = 348 (int)
+
+# CCW
+
+c1.setHue( 348 )
+print('Hue inicial en float: '+str( c1.h ))
+c1.rotateHue( -20 )
+print( c1.h )
+
+c1.setHue( 348 )
+c1.rotateHue( -0.05555555555555555 )
+print( c1.h )
+
+c1.setHue( 348 )
+c1.rotateHue( -380 )
+print( c1.h )
+
+c1.setHue( 348 )
+c1.rotateHue( -6.05555555555555555 )
+print( c1.h )
+
+# CW
+
 c1.setHue( 348 )
 c1.rotateHue( 20 )
 print( c1.h )
+
 c1.setHue( 348 )
 c1.rotateHue( 0.05555555555555555 )
 print( c1.h )
+
 c1.setHue( 348 )
-c1.rotateHue( -20 )
+c1.rotateHue( 380 )
 print( c1.h )
+
 c1.setHue( 348 )
-c1.rotateHue( -0.05555555555555555 )
+c1.rotateHue( 6.05555555555555555 )
 print( c1.h )
 
 

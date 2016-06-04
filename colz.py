@@ -198,7 +198,10 @@ class Colz:
         newhue = self.h + hue_inc
         if newhue > 1.0:
             newhue, whole = math.modf(newhue) # Keep decimal part
-        self.h += newhue
+        if newhue < 0.0:
+            newhue, whole = math.modf(newhue) # Keep decimal part
+            newhue = 1.0 + newhue
+        self.h = newhue
         self.hsl[0]  = self.h
         self.hsla[0] = self.h
         self.updateFromHsl()
