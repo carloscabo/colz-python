@@ -469,43 +469,74 @@ class Colz:
         return Colz.rgbToHsl( Colz.hsbToRgb( h, s, b ) )
 
     @staticmethod
-    def angle_lerp ( a1, a2, amt ):
-        """ Generic linear interpolation """
-        # shortest_angle = ( ( ( ( end - start ) % 360 ) + 540 ) % 360 ) - 180;
-        shortest_angle= ( ( ( ( a1 - a2 ) % 1.0 ) + 1.5 ) % 1.0 ) - 0.5;
-        return shortest_angle * amt
+    def shortHueDist( h1, h2 ):
+        _max = 1.0
+        da = ( h2 - h1) % _max
+        return 2 * da % _max - da
 
     @staticmethod
-    def linear_lerp ( v1, v2, amt ):
+    def hueLerp ( h1, h2, amt ):
+        """ Generic linear interpolation """
+        # shortest_angle = ( ( ( ( end - start ) % 360 ) + 540 ) % 360 ) - 180;
+        # shortest_angle = ( ( ( ( a1 - a2 ) % 1.0 ) + 1.5 ) % 1.0 ) - 0.5
+        # return shortest_angle * amt
+        hue = h1 + Colz.shortHueDist( h1, h2) * amt
+        if hue > 1.0:
+            hue, whole = math.modf(hue) # Keep decimal part
+        if hue < 0.0:
+            hue, whole = math.modf(hue) # Keep decimal part
+            hue = 1.0 + hue
+        return hue
+
+    @staticmethod
+    def linearLerp ( v1, v2, amt ):
         """ Generic linear interpolation """
         return v1 + (v2 - v1) * amt
 
     @staticmethod
-    def mixHslColors ( h1, s1, l1, h2, s2, l2, amt ):
+    def interpolate ( hsl1, hsl2, amt ):
         """ Mixes or interpolates 2 colors in hsl format """
-        if isinstance( h1, Colz ):
-            s1 = h1.s
-            l1 = h1.l
-            h1 = h1.h
-        if isinstance( h2, Colz ):
-            s2 = h2.s
-            l2 = h2.l
-            h2 = h2.h
-        if  isinstance( h1, int ):
-            h1 /= 360.0
-        if  isinstance( s1, int ):
-            s1 /= 100.0
-        if  isinstance( l1, int ):
-            l1 /= 100.0
-        if  isinstance( h2, int ):
-            h2 /= 360.0
-        if  isinstance( s2, int ):
-            s2 /= 100.0
-        if  isinstance( l2, int ):
-            l2 /= 100.0
+        if isinstance( hsl1, Colz ):
+            h1 = hsl1.h
+            s1 = hsl1.s
+            l1 = hsl1.l
+            a1 = hsl1.a
+        if isinstance( hsl2, Colz ):
+            h2 = hsl2.h
+            s2 = hsl2.s
+            l2 = hsl2.l
+            a2 = hsl2.a
+        if  isinstance( hsl1, list ):
+            h1 = hsl1[0]
+            s1 = hsl1[1]
+            l1 = hsl1[2]
+            if len(hsl1) > 3:
+                a1 = hsl1[3]
+            if  isinstance( h1, int ):
+                h1 = h1 / 360.0
+            if  isinstance( s1, int ):
+                s1 = s1 / 100.0
+            if  isinstance( l1, int ):
+                l1 = l1 / 100.0
+        if  isinstance( hsl2, list ):
+            h2 = hsl2[0]
+            s2 = hsl2[1]
+            l2 = hsl2[2]
+            if len(hsl2) > 3:
+                a2 = hsl2[3]
+            if  isinstance( h2, int ):
+                h2 = h2 / 360.0
+            if  isinstance( s2, int ):
+                s2 = s2 / 100.0
+            if  isinstance( l2, int ):
+                l2 = l2 / 100.0
 
-        h3 = Colz.angle_lerp( h1, h2, amt )
-        s3 = Colz.linear_lerp( s1, s2, amt )
-        l3 = Colz.linear_lerp( l1, l2, amt )
+        h3 = Colz.hueLerp( h1, h2, amt )
+        s3 = Colz.linearLerp( s1, s2, amt )
+        l3 = Colz.linearLerp( l1, l2, amt )
+
+        if a1 and a2:
+            a3 = Colz.linearLerp( a1, a2, amt )
+            return [ h3, s3, l3, a3 ]
 
         return [ h3, s3, l3 ]

@@ -50,6 +50,14 @@ print( c1.getRgbInt() )
 c1.setHsl( [ 0.9666666666666667, 0.42, 0.62 ] )
 print( c1.getRgbInt() )
 
+c1.setHsla( 348, 42, 62, 0.5 ) # Integer componets with float alpha
+print( c1.rgba )
+print( c1.rgb )
+
+c1.setHsla( [ 348, 42, 62, 0.5 ] ) # Integer componets with float alpha
+print( c1.rgba )
+print( c1.rgb )
+
 c1.setHsla( 0.9666666666666667, 0.42, 0.62, 0.5 )
 print( c1.rgba )
 print( c1.rgb )
@@ -74,6 +82,18 @@ print( c1.getRgbInt() )
 print( c1.hex )
 
 c1.setRgba( [ 0.7803921568627451, 0.4588235294117647, 0.5254901960784314 ] )
+print( c1.hsla )
+print( c1.getHslInt() )
+print( c1.getRgbInt() )
+print( c1.hex )
+
+c1.setRgba( 199, 117, 134, 0.35 ) # Integer componets with float alpha
+print( c1.hsla )
+print( c1.getHslInt() )
+print( c1.getRgbInt() )
+print( c1.hex )
+
+c1.setRgba( [ 199, 117, 134, 0.35 ] ) # Integer componets with float alpha
 print( c1.hsla )
 print( c1.getHslInt() )
 print( c1.getRgbInt() )
@@ -187,7 +207,22 @@ c1.setHue( 348 )
 c1.rotateHue( 6.05555555555555555 )
 print( c1.h )
 
+# Create from RGB
+print('# Interpolate / mix hsl colors')
 
-
+c1_values = [ 0.75, 0.42, 0.62, 0.5 ]
+c2_values = [ 0.1, 0.62, 0.42, 0.1 ]
+c1 = Colz()
+c1.setHsla( c1_values )
+c2 = Colz()
+c2.setHsla( c2_values )
+cmix1 = Colz.interpolate( c1, c2, 0.5 )
+print(cmix1)
+cmix1 = Colz.interpolate( c2, c1, 0.5 )
+print(cmix1)
+cmix1 = Colz.interpolate( c1_values, c2_values, 0.5 )
+print(cmix1)
+cmix1 = Colz.interpolate( c2_values, c1_values, 0.5 )
+print(cmix1)
 # print( Colz.hsbToRgb( 65, 90, 23 ) )
 # print( Colz.rgbToHsb( 104, 112, 6 ) )
