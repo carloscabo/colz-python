@@ -64,7 +64,7 @@ c1.setHsv( 0.9666666666666667, 0.41, 0.78 )
 c1.setHsv( [ 0.9666666666666667, 0.41, 0.78 ] ) #list
 ````
 
-# Getting the color properties other formats
+# Retrieving the color properties / components
 Once created you can access the color components as poperties of the object
 
 ````Python3
@@ -81,14 +81,14 @@ print( c1.s ) # Saturation component (float)
 print( c1.l ) # Luminance component (float)
 print( c1.a ) # Alpha component (float)
 
-print( c1.rgb )  # List of floating point componentes
-print( c1.rgba ) # List of floating point componentes
-print( c1.hsl )  # List of floating point componentes
-print( c1.hsla ) # List of floating point componentes
+print( c1.rgb )  # rgb  color as list of (float) values
+print( c1.rgba ) # rgba color as list of (float) values
+print( c1.hsl )  # hsl  color as list of (float) values
+print( c1.hsla ) # hsla color as list of (float) values
 ````
 
 # Modifiying a HSL color component
-HSL is a better color space to be unrestood by humans ( [read about it here](https://en.wikipedia.org/wiki/HSL_and_HSV)). Some methods are provided to modify the color object based on HSL modificatins. Using this methods you will update the whole color objet.
+HSL is a better color space to be understood by humans ( [read about it here](https://en.wikipedia.org/wiki/HSL_and_HSV)). Some methods are provided to modify the color object based on HSL modifications. Using this methods you will update the whole color objet properties.
 
 ````Python3
 c1 = Colz()
@@ -113,7 +113,7 @@ c1.getHsvInt() # Color as list of (int) values
 ````
 
 # _Rotating_ a color
-<img src="img/hue_wheel.jpg">If you imagine a color as a HSL circle, you can _rotate_ its HUE by keeping its saturation and luminosity values untouch, its very useful for armonic color transitions.
+<img src="img/hue_wheel.jpg" style="float:left">If you imagine a color as a HSL circle, you can _rotate_ its HUE by keeping its saturation and luminosity values untouch, its very useful for armonic color transitions.
 
 ````Python3
 c1 = Colz()
@@ -122,13 +122,15 @@ print( c1.h )
 
 c1.rotateHue( -20 )   # Rotate CCW (counter-clockwise) using an int
 print( c1.h )
-# or
+
+# or also
+
 c1.rotateHue( 0.055 ) # Rotate CW (clockwise) using a float
 print( c1.h )
 ````
 
 # Interpotaling 2 colors
-`Colz.interpolate` is one of the more useful functionallities, it allows you to interpolate (or _mix_) two colors, passing the _percent_ of each color you want in the final result in the [0.0 - 1.0] range. 0.0 means _"0% of the second color"_ and 1.0 means _"100 % of the second color"_.
+`Colz.interpolate` is one of the more useful functionallities, it allows you to **interpolate (or _mix_) two colors, passing the _percent_ of each color you want in the final result** in the [0.0 - 1.0] range. **0.0** means _"0% of the second color"_ and **1.0** means _"100 % of the second color"_.
 
 ````Python3
 c1 = Colz()
@@ -158,7 +160,9 @@ hsl = Colz.rgbToHsl( r, g, b ) # Returns list of float
 hsl = Colz.hsvToHsl( h, v, v ) # Returns list of float
 hsv = Colz.rgbToHsv( r, g, b ) # Returns list of float
 hex = Colz.rgbToHex( r, g, b ) # Returns hex string without '#'
-# or
+
+# also...
+
 rgb = Colz.hslToRgb( [ h, s, l ] ) # Returns list of float
 rgb = Colz.hsvToRgb( [ h, s, v ] ) # Returns list of float
 hsl = Colz.rgbToHsl( [ r, g, b ] ) # Returns list of float
@@ -170,3 +174,4 @@ hex = Colz.rgbToHex( [ r, g, b ] ) # Returns hex string without '#'
 # TO-DO
 
 # Changelog
+* v0.1.0 (2016/06/05) First release
