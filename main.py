@@ -207,7 +207,7 @@ c1.setHue( 348 )
 c1.rotateHue( 6.05555555555555555 )
 print( c1.h )
 
-# Create from RGB
+# Interpolate colors
 print('# Interpolate / mix hsl colors')
 
 c1_values = [ 0.75, 0.42, 0.62, 0.5 ]
@@ -226,3 +226,11 @@ cmix1 = Colz.interpolate( c2_values, c1_values, 0.01 )
 print(cmix1)
 # print( Colz.hsbToRgb( 65, 90, 23 ) )
 # print( Colz.rgbToHsb( 104, 112, 6 ) )
+
+# Get CSS strings
+print('# Get CSS strings')
+c1.setHsl( 348, 42, 62 )
+print( c1.toRgbString() )
+print( c1.toRgbaString() )
+print( c1.toHslString() )
+print( c1.toHslaString() )

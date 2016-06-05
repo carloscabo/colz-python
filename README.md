@@ -172,6 +172,7 @@ hex = Colz.rgbToHex( [ r, g, b ] ) # Returns hex string without '#'
 ````
 
 # Getting teh colors in CSS string format
+Helpers that provide the colors in CSS format, rgb, rgba, hsl, hsl1
 ````Python3
 c1 = Colz()
 print( c1.toRgbString() )

@@ -549,12 +549,13 @@ class Colz:
     # .toString methods
     def toRgbString ( self ):
         rgb = self.getRgbInt()
-        return 'rgb(' + rgb[0] + ',' + self.rgb[1] + ',' + self.rgb[2] + ')'
+        return 'rgb(' + str(rgb[0]) + ',' + str(rgb[1]) + ',' + str(rgb[2]) + ');'
     def toRgbaString ( self ):
         rgb = self.getRgbInt()
-        return 'rgba(' + rgb[0] + ',' + self.rgb[1] + ',' + self.rgb[2] + ',' + self.a + ')'
+        return 'rgba(' + str(rgb[0]) + ',' + str(rgb[1]) + ',' + str(rgb[2]) + ',' + str(self.a) + ');'
     def toHslString ( self ):
         hsl = self.getHslInt()
-        return 'hsl(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[1] + '%)'
+        return 'hsl(' + str(hsl[0]) + ',' + str(hsl[1]) + '%,' + str(hsl[1]) + '%);'
     def toHslaString ( self ):
-        return 'hsla(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[1] + '%,' + self.a + ')'
+        hsl = self.getHslInt()
+        return 'hsla(' + str(hsl[0]) + ',' + str(hsl[1]) + '%,' + str(hsl[1]) + '%,' + str(self.a) + ');'
