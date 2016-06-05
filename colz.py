@@ -1,3 +1,7 @@
+# colz-python by Carlos Cabo 2016
+# https://github.com/carloscabo/colz-python
+# V 0.1.0
+
 import math
 
 class Colz:
@@ -455,18 +459,18 @@ class Colz:
 
     # @staticmethod
     # def hsvToHsl ( h, s, b ):
-    #     """ This is an alias to hsbToHsl """
-    #     Colz.hsbToHsl ( h, s, b )
+    #     """ This is an alias to hsvToHsl """
+    #     Colz.hsvToHsl ( h, s, b )
 
     @staticmethod
-    def hsbToHsl ( h, s = 0.0, b = 0.0 ):
+    def hsvToHsl ( h, s = 0.0, v = 0.0 ):
         """ Converts hsv / hsb to rgb """
         # Check if first argument is list
         if isinstance(h, list):
             s = h[1]
-            b = h[2]
+            v = h[2]
             h = h[0]
-        return Colz.rgbToHsl( Colz.hsbToRgb( h, s, b ) )
+        return Colz.rgbToHsl( Colz.hsbToRgb( h, s, v ) )
 
     @staticmethod
     def shortHueDist( h1, h2 ):
@@ -477,9 +481,10 @@ class Colz:
     @staticmethod
     def hueLerp ( h1, h2, amt ):
         """ Generic linear interpolation """
-        # shortest_angle = ( ( ( ( end - start ) % 360 ) + 540 ) % 360 ) - 180;
-        # shortest_angle = ( ( ( ( a1 - a2 ) % 1.0 ) + 1.5 ) % 1.0 ) - 0.5
-        # return shortest_angle * amt
+        if  isinstance( h1, int ):
+            h1 = h1 / 360.0
+        if  isinstance( h2, int ):
+            h2 = h2 / 360.0
         hue = h1 + Colz.shortHueDist( h1, h2) * amt
         if hue > 1.0:
             hue, whole = math.modf(hue) # Keep decimal part
