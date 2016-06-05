@@ -1,11 +1,11 @@
 # colz-python
-Port to Python 3 of colz (color Javascript library to convert colors between RGB / Hex / HSL / HSV / HSB color spaces). **IMPORTANT: Colz always works internally and return results in floating point values except in methods specified.**
+Port to Python 3 of **[colz](https://github.com/carloscabo/colz)** (color Javascript library to convert colors between RGB / Hex / HSL / HSV / HSB color spaces). **IMPORTANT: Colz always works internally and return results in floating point values except in methods specified.**
 
 # Dependencies
-It doesn't need any third-party dependencie / module but `math`.
+It doesn't need any third-party dependencies / modules but `math`.
 
 # Usage
-You can create a color initializing the object a color, and then get tit in other formats:
+You can create a color initializing the object a color, and it's equivalency other color formats:
 
 ````Python3
 c1 = Colz()             # Create object
@@ -35,11 +35,11 @@ c1.setHsl( [ 348, 42, 62 ] ) # list
 c1.setHsl( 0.9666666666666667, 0.42, 0.62 )
 c1.setHsl( [ 0.9666666666666667, 0.42, 0.62 ] ) # list of float
 
-# Integer componets with float alpha
+# Integer components with float alpha
 c1.setHsla( 348, 42, 62, 0.5 )
 c1.setHsla( [ 348, 42, 62, 0.5 ] )
 
- # Float componets with float alpha
+ # Float components with float alpha
 c1.setHsla( 0.9666666666666667, 0.42, 0.62, 0.5 )
 c1.setHsla( [ 0.9666666666666667, 0.42, 0.62, 0.5 ] )
 
@@ -50,8 +50,8 @@ c1.setRgb( [ 199, 117, 134 ] )
 c1.setRgb( 0.7803921568627451, 0.4588235294117647, 0.5254901960784314 )
 c1.setRgba( [ 0.7803921568627451, 0.4588235294117647, 0.5254901960784314 ] )
 
-c1.setRgba( 199, 117, 134, 0.35 ) # Integer componets with float alpha
-c1.setRgba( [ 199, 117, 134, 0.35 ] ) # Integer componets with float alpha
+c1.setRgba( 199, 117, 134, 0.35 ) # Integer components with float alpha
+c1.setRgba( [ 199, 117, 134, 0.35 ] ) # Integer components with float alpha
 
 c1.setRgba( 0.7803921568627451, 0.4588235294117647, 0.5254901960784314, 0.35 )
 c1.setRgba( [ 0.7803921568627451, 0.4588235294117647, 0.5254901960784314, 0.35 ] )
@@ -65,11 +65,11 @@ c1.setHsv( [ 0.9666666666666667, 0.41, 0.78 ] ) #list
 ````
 
 # Retrieving the color properties / components
-Once created you can access the color components as poperties of the object
+Once the Colz object is created you can access the color components as properties of the object.
 
 ````Python3
 c1 = Colz() # Create object
-c1.setHex('#d32b46') # Assing color
+c1.setHex('#d32b46') # Assing an initial color
 
 # Retrieving color components
 print( c1.hex )
@@ -88,7 +88,7 @@ print( c1.hsla ) # hsla color as list of (float) values
 ````
 
 # Modifiying a HSL color component
-HSL is a better color space to be understood by humans ( [read about it here](https://en.wikipedia.org/wiki/HSL_and_HSV)). Some methods are provided to modify the color object based on HSL modifications. Using this methods you will update the whole color objet properties.
+HSL is a better color space to be understood by humans ( [read about it here](https://en.wikipedia.org/wiki/HSL_and_HSV) ). Some methods are provided to modify the color object based on HSL components. Using this methods you will update the whole color objet properties.
 
 ````Python3
 c1 = Colz()
@@ -101,7 +101,7 @@ c1.setAlpha( 0.95 ) # Update color alpha [0.0 - 1.0] float )
 ````
 
 # Getting colors as integers
-**Colz** work mainly in floating point format, but in the case you need the integer values of the colors there are some helpers.
+**Colz** works internally in floating point, but in the case you need the integer values of the colors there are some helpers to get them.
 
 ````Python3
 c1 = Colz()
@@ -113,7 +113,7 @@ c1.getHsvInt() # Color as list of (int) values
 ````
 
 # _Rotating_ a color
-<img src="img/hue_wheel.jpg" style="float:left">If you imagine a color as a HSL circle, you can _rotate_ its HUE by keeping its saturation and luminosity values untouch, its very useful for armonic color transitions.
+<img src="img/hue_wheel.jpg" style="float:left">If you imagine the HSL color space as a circle, you can _rotate_ a color by modifiying its HUE while keeping its saturation and luminosity values untouch, this is very useful for **armonic color transitions**.
 
 ````Python3
 c1 = Colz()
@@ -130,7 +130,7 @@ print( c1.h )
 ````
 
 # Interpotaling 2 colors
-`Colz.interpolate` is one of the more useful functionallities, it allows you to **interpolate (or _mix_) two colors, passing the _percent_ of each color you want in the final result** in the [0.0 - 1.0] range. **0.0** means _"0% of the second color"_ and **1.0** means _"100 % of the second color"_.
+`Colz.interpolate` is one of the more powerful functionallities of the module, it allows you to **interpolate (or _mix_) two colors, passing the _percent_ of each color you want in the final result** in the [0.0 - 1.0] range. **0.0** means _"0% of the second color"_ and **1.0** means _"100 % of the second color"_.
 
 ````Python3
 c1 = Colz()
@@ -141,7 +141,7 @@ cmix1 = Colz.interpolate( c1, c2, 0.5 ) # 0.5 -> 50% of each color
 # Returns a list of flot values
 ````
 
-You can use `Colz.interpolate` directly on lists without the need of creating `Colz` objects.
+You can use `Colz.interpolate` directly on color lists without the need of creating `Colz` objects too.
 
 ````
 c1_values = [ 0.75, 0.42, 0.62, 0.5 ]
@@ -151,7 +151,7 @@ cmix1 = Colz.interpolate( c2_values, c1_values, 0.01 )
 ````
 
 # Static methods
-You have several static methods on the class that can be used without the need of creating a **Colz object**.
+You have several static methods on the class that can be used without the need of creating a **Colz object**. That could be useful in some projects, situatuations.
 
 ````Python3
 rgb = Colz.hslToRgb( h, s, l ) # Returns list of float
@@ -172,6 +172,7 @@ hex = Colz.rgbToHex( [ r, g, b ] ) # Returns hex string without '#'
 ````
 
 # TO-DO
+* Add the `.toString()` method to get color definitions in CSS format.
 
 # Changelog
 * v0.1.0 (2016/06/05) First release
