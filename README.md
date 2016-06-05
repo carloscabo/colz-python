@@ -150,6 +150,15 @@ cmix1 = Colz.interpolate( c2_values, c1_values, 0.01 )
 # Returns a list of flot values
 ````
 
+You can also interpolate the **hue component** using:
+
+````Python3
+# result_hue = Colz.hueLerp( hue1, hue2, amount_in_float )
+result_hue = Colz.hueLerp( 127, 24, 0.33 )
+# Also in float
+result_hue = Colz.hueLerp( 0.3527, 0.0666, 0.33 )
+````
+
 # Static methods
 You have several static methods on the class that can be used without the need of creating a **Colz object**. That could be useful in some projects, situatuations.
 
