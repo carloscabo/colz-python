@@ -545,3 +545,16 @@ class Colz:
             return [ h3, s3, l3, a3 ]
 
         return [ h3, s3, l3 ]
+
+    # .toString methods
+    def toRgbString ( self ):
+        rgb = self.getRgbInt()
+        return 'rgb(' + rgb[0] + ',' + self.rgb[1] + ',' + self.rgb[2] + ')'
+    def toRgbaString ( self ):
+        rgb = self.getRgbInt()
+        return 'rgba(' + rgb[0] + ',' + self.rgb[1] + ',' + self.rgb[2] + ',' + self.a + ')'
+    def toHslString ( self ):
+        hsl = self.getHslInt()
+        return 'hsl(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[1] + '%)'
+    def toHslaString ( self ):
+        return 'hsla(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[1] + '%,' + self.a + ')'

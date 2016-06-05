@@ -171,8 +171,17 @@ hsv = Colz.rgbToHsv( [ r, g, b ] ) # Returns list of float
 hex = Colz.rgbToHex( [ r, g, b ] ) # Returns hex string without '#'
 ````
 
+# Getting teh colors in CSS string format
+````Python3
+c1 = Colz()
+print( c1.toRgbString() )
+print( c1.toRgbaString() )
+print( c1.toHslString() )
+print( c1.toHslaString() )
+````
+
 # TO-DO
-* Add the `.toString()` method to get color definitions in CSS format.
+* Add color scheme creation.
 
 # Changelog
 * v0.1.0 (2016/06/05) First release
