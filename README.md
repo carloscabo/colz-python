@@ -1,3 +1,5 @@
+<img src="https://travis-ci.org/carloscabo/colz-python.svg?branch=master">
+
 # colz-python
 Port to Python 3 of **[colz](https://github.com/carloscabo/colz)** (color Javascript library to convert colors between RGB / Hex / HSL / HSV / HSB color spaces). **IMPORTANT: Colz always works internally and return results in floating point values except in methods specified.**
 
