@@ -1,4 +1,4 @@
-from colz import *
+from mod.colz import Colz
 
 c1 = Colz()
 

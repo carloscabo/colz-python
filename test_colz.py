@@ -1,5 +1,5 @@
 import unittest
-from colz import Colz
+from mod.colz import Colz
 
 class TestColz(unittest.TestCase):
 
