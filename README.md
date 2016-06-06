@@ -182,7 +182,7 @@ hsv = Colz.rgbToHsv( [ r, g, b ] ) # Returns list of float
 hex = Colz.rgbToHex( [ r, g, b ] ) # Returns hex string without '#'
 ```
 
-# Getting teh colors in CSS string format
+# Getting the colors in CSS string format
 Helpers that provide the colors in CSS format, rgb, rgba, hsl, hsl1
 ```python
 c1 = Colz()
