@@ -27,7 +27,7 @@ class Colz:
 
     def setHex ( self, hex ):
         """ Creates color object from hex value """
-        self.reset()
+        #self.reset()
 
         hex = hex.lower().lstrip('#')
 
@@ -54,7 +54,7 @@ class Colz:
 
     def setRgba ( self, r, g = 0.0, b = 0.0, a = 1.0 ):
         """Creates color object from rgba values """
-        self.reset()
+        #self.reset()
 
         # Check if argument is list
         if isinstance(r, list):
@@ -86,7 +86,7 @@ class Colz:
 
     def setHsla ( self, h, s = 0.0, l = 0.0, a = 1.0 ):
         """ Create color object from hsl values """
-        self.reset()
+        #self.reset()
 
         # Check if argument is list
         if isinstance(h, list):
@@ -113,7 +113,7 @@ class Colz:
 
     def setHsv ( self, h, s = 0.0, v = 0.0 ):
         """ Create color object from hsb / hsv values """
-        self.reset()
+        #self.reset()
 
         # Check if first argument is list
         if isinstance(h, list):
@@ -283,7 +283,7 @@ class Colz:
                 g = m
                 b = mid2
 
-            return [ r, g, b ]
+        return [ r, g, b ]
 
     @staticmethod
     def rgbToHsl( r, g = 0.0, b = 0.0 ):
