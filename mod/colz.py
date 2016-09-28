@@ -674,14 +674,14 @@ class Colz:
     # .shortCut functions
     @staticmethod
     def rgbToLab( R, G, B ):
-        XYZ = self.rgbToXyz( R, G, B )
-        Lab = self.xyzToLab( *XYZ )
+        XYZ = Colz.rgbToXyz( R, G, B )
+        Lab = Colz.xyzToLab( *XYZ )
         return Lab
 
     def labToRgb( L, a, b ):
-        XYZ = self.labToXyz( L, a, b )
-        rgb = self.xyzToRgb( *XYZ )
-        return Lab
+        XYZ = Colz.labToXyz( L, a, b )
+        rgb = Colz.xyzToRgb( *XYZ )
+        return rgb
 
     # .toString methods
     def toRgbString ( self ):
