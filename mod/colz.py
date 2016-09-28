@@ -1,6 +1,6 @@
 # colz-python by Carlos Cabo 2016
 # https://github.com/carloscabo/colz-python
-# V 0.1.0
+# V 0.2.0 WIP
 
 import math
 
@@ -234,7 +234,7 @@ class Colz:
     # Static methods
 
     @staticmethod
-    def hslToRgb ( h, s = 0.0, l = 0.0 ):
+    def hslToRgb ( h, s = 0.0, l = 0.0, a = 1.0 ):
         """ Converts hsl color to rgb list """
 
         # Check if argument is list
@@ -545,6 +545,143 @@ class Colz:
             return [ h3, s3, l3, a3 ]
 
         return [ h3, s3, l3 ]
+
+    @staticmethod
+    def rgbToXyz( R, G, B ):
+        var_R = R
+        var_G = G
+        var_B = B
+        if  isinstance( var_R, int ) or var_R > 1.0:
+            var_R = var_R / 255.0
+        if  isinstance( var_G, int ) or var_G > 1.0:
+            var_G = var_G / 255.0
+        if  isinstance( var_B, int ) or var_B > 1.0:
+            var_B = var_B / 255.0
+
+        if ( var_R > 0.04045 ):
+            var_R = ( ( var_R + 0.055 ) / 1.055 ) ** 2.4
+        else:
+            var_R = var_R / 12.92
+        if ( var_G > 0.04045 ):
+            var_G = ( ( var_G + 0.055 ) / 1.055 ) ** 2.4
+        else:
+            var_G = var_G / 12.92
+        if ( var_B > 0.04045 ):
+            var_B = ( ( var_B + 0.055 ) / 1.055 ) ** 2.4
+        else:
+            var_B = var_B / 12.92
+
+        var_R = var_R * 100
+        var_G = var_G * 100
+        var_B = var_B * 100
+
+        # Observer. = 2°, Illuminant = D65
+        X = var_R * 0.4124 + var_G * 0.3576 + var_B * 0.1805
+        Y = var_R * 0.2126 + var_G * 0.7152 + var_B * 0.0722
+        Z = var_R * 0.0193 + var_G * 0.1192 + var_B * 0.9505
+        return [ X, Y, Z ]
+
+    @staticmethod
+    def xyzToRgb( X, Y, Z ):
+        var_X = X / 100 # X from 0 to  95.047      (Observer = 2°, Illuminant = D65)
+        var_Y = Y / 100 # Y from 0 to 100.000
+        var_Z = Z / 100 # Z from 0 to 108.883
+
+        var_R = var_X *  3.2406 + var_Y * -1.5372 + var_Z * -0.4986
+        var_G = var_X * -0.9689 + var_Y *  1.8758 + var_Z *  0.0415
+        var_B = var_X *  0.0557 + var_Y * -0.2040 + var_Z *  1.0570
+
+        if ( var_R > 0.0031308 ):
+            var_R = 1.055 * ( math.pow( var_R, ( 1 / 2.4 ) ) ) - 0.055
+        else:
+            var_R = 12.92 * var_R
+
+        if ( var_G > 0.0031308 ):
+            var_G = 1.055 * ( math.pow( var_G, ( 1 / 2.4 ) ) ) - 0.055
+        else:
+            var_G = 12.92 * var_G
+        if ( var_B > 0.0031308 ):
+             var_B = 1.055 * ( math.pow ( var_B, ( 1 / 2.4 ) ) ) - 0.055
+        else:
+            var_B = 12.92 * var_B
+
+        if var_R > 1.0: var_R = 1.0
+        if var_G > 1.0: var_G = 1.0
+        if var_B > 1.0: var_B = 1.0
+        if var_R < 0.0: var_R = 0.0
+        if var_G < 0.0: var_G = 0.0
+        if var_B < 0.0: var_B = 0.0
+        return [ var_R, var_G, var_B ]
+
+    @staticmethod
+    def labToXyz ( L, a, b ):
+        var_Y = ( L + 16 ) / 116
+        var_X = a / 500 + var_Y
+        var_Z = var_Y - b / 200
+
+        if ( var_Y ** 3 > 0.008856 ):
+            var_Y = var_Y ** 3
+        else:
+            var_Y = ( var_Y - 16 / 116 ) / 7.787
+        if ( var_X ** 3 > 0.008856 ):
+            var_X = var_X ** 3
+        else:
+            var_X = ( var_X - 16 / 116 ) / 7.787
+        if ( var_Z ** 3 > 0.008856 ):
+            var_Z = var_Z ** 3
+        else:
+            var_Z = ( var_Z - 16 / 116 ) / 7.787
+
+        # Observer= 2°, Illuminant= D65
+        ref_X =  95.047
+        ref_Y = 100.000
+        ref_Z = 108.883
+
+        X = ref_X * var_X
+        Y = ref_Y * var_Y
+        Z = ref_Z * var_Z
+        return [ X, Y, Z ]
+
+    @staticmethod
+    def xyzToLab ( X, Y, Z ):
+        # Observer= 2°, Illuminant= D65
+        ref_X =  95.047
+        ref_Y = 100.000
+        ref_Z = 108.883
+
+        var_X = X / ref_X
+        var_Y = Y / ref_Y
+        var_Z = Z / ref_Z
+
+        if ( var_X > 0.008856 ):
+            var_X = var_X ** ( 1/3 )
+        else:
+            var_X = ( 7.787 * var_X ) + ( 16 / 116 )
+        if ( var_Y > 0.008856 ):
+            var_Y = var_Y ** ( 1/3 )
+        else:
+            var_Y = ( 7.787 * var_Y ) + ( 16 / 116 )
+        if ( var_Z > 0.008856 ):
+            var_Z = var_Z ** ( 1/3 )
+        else:
+            var_Z = ( 7.787 * var_Z ) + ( 16 / 116 )
+
+        L = ( 116 * var_Y ) - 16
+        a = 500 * ( var_X - var_Y )
+        b = 200 * ( var_Y - var_Z )
+        return [ L, a, b ]
+
+    # .shortCut functions
+    @staticmethod
+    def rgbToLab( R, G, B ):
+        XYZ = self.rgbToXyz( R, G, B )
+        Lab = self.xyzToLab( *XYZ )
+        return Lab
+
+    def labToRgb( L, a, b ):
+        XYZ = self.labToXyz( L, a, b )
+        rgb = self.xyzToRgb( *XYZ )
+        return Lab
 
     # .toString methods
     def toRgbString ( self ):
