@@ -696,3 +696,16 @@ class Colz:
     def toHslaString ( self ):
         hsl = self.getHslInt()
         return 'hsla(' + str(hsl[0]) + ',' + str(hsl[1]) + '%,' + str(hsl[1]) + '%,' + str(self.a) + ');'
+
+    @staticmethod
+    def contrastedTextColor( r, g, b ):
+        """ Returns black [0,0,0] or white [0,0,0] depending on the constrast of the color suplied as parameter to assure legibility of text over background """
+        r = ( r / 12.92 ) if ( r <= 0.03928 ) else ( ( r + 0.055 ) / 1.055 ) ** 2.4
+        g = ( g / 12.92 ) if ( g <= 0.03928 ) else ( ( g + 0.055 ) / 1.055 ) ** 2.4
+        b = ( b / 12.92 ) if ( b <= 0.03928 ) else ( ( b + 0.055 ) / 1.055 ) ** 2.4
+
+        ratio = ( 0.2126 * r ) + ( 0.7152 * g ) + ( 0.0722 * b )
+        if ratio > 0.4:
+            return [ 0, 0, 0 ]
+        else:
+            return [ 1, 1, 1 ]
