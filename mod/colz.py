@@ -1,7 +1,8 @@
 # colz-python by Carlos Cabo 2016
 # https://github.com/carloscabo/colz-python
-# V 0.2.0 WIP
+# V 0.2.1 WIP
 
+import sys
 import math
 
 class Colz:
@@ -457,11 +458,6 @@ class Colz:
 
         return [ r, g, b ]
 
-    # @staticmethod
-    # def hsvToHsl ( h, s, b ):
-    #     """ This is an alias to hsvToHsl """
-    #     Colz.hsvToHsl ( h, s, b )
-
     @staticmethod
     def hsvToHsl ( h, s = 0.0, v = 0.0 ):
         """ Converts hsv / hsb to rgb """
@@ -501,16 +497,15 @@ class Colz:
     @staticmethod
     def interpolate ( hsl1, hsl2, amt ):
         """ Mixes or interpolates 2 colors in hsl format """
+
+        print( hsl1.hsla )
+        # sys.exit()
+
         if isinstance( hsl1, Colz ):
             h1 = hsl1.h
             s1 = hsl1.s
             l1 = hsl1.l
             a1 = hsl1.a
-        if isinstance( hsl2, Colz ):
-            h2 = hsl2.h
-            s2 = hsl2.s
-            l2 = hsl2.l
-            a2 = hsl2.a
         if  isinstance( hsl1, list ):
             h1 = hsl1[0]
             s1 = hsl1[1]
@@ -523,6 +518,12 @@ class Colz:
                 s1 = s1 / 100.0
             if  isinstance( l1, int ):
                 l1 = l1 / 100.0
+
+        if isinstance( hsl2, Colz ):
+            h2 = hsl2.h
+            s2 = hsl2.s
+            l2 = hsl2.l
+            a2 = hsl2.a
         if  isinstance( hsl2, list ):
             h2 = hsl2[0]
             s2 = hsl2[1]
@@ -542,9 +543,12 @@ class Colz:
 
         if 'a1' in locals() and 'a2' in locals():
             a3 = Colz.linearLerp( a1, a2, amt )
-            return [ h3, s3, l3, a3 ]
+        else:
+            a3 = 1.0
 
-        return [ h3, s3, l3 ]
+        c_result = Colz()
+        c_result.setHsla( h3, s3, l3, a3 )
+        return c_result
 
     @staticmethod
     def rgbToXyz( R, G, B ):

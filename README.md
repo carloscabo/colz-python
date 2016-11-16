@@ -140,7 +140,7 @@ c1.setHsla( [ 0.75, 0.42, 0.62, 0.5 ] )
 c2 = Colz()
 c2.setHsla( [ 0.1, 0.62, 0.42, 0.1 ] )
 cmix1 = Colz.interpolate( c1, c2, 0.5 ) # 0.5 -> 50% of each color
-# Returns a list of flot values
+# Returns a colz object
 ```
 
 You can use `Colz.interpolate` directly on color lists without the need of creating `Colz` objects too.
@@ -149,7 +149,7 @@ You can use `Colz.interpolate` directly on color lists without the need of creat
 c1_values = [ 0.75, 0.42, 0.62, 0.5 ]
 c2_values = [ 0.1, 0.62, 0.42, 0.1 ]
 cmix1 = Colz.interpolate( c2_values, c1_values, 0.01 )
-# Returns a list of flot values
+# Returns a Colz object
 ```
 
 You can also interpolate the **hue component** using:
@@ -196,4 +196,5 @@ print( c1.toHslaString() )
 * Add color scheme creation.
 
 # Changelog
+* v0.2.1 (2016/10/16) Chnages in `interpolate`
 * v0.1.0 (2016/06/05) First release
