@@ -497,10 +497,6 @@ class Colz:
     @staticmethod
     def interpolate ( hsl1, hsl2, amt ):
         """ Mixes or interpolates 2 colors in hsl format """
-
-        print( hsl1.hsla )
-        # sys.exit()
-
         if isinstance( hsl1, Colz ):
             h1 = hsl1.h
             s1 = hsl1.s
