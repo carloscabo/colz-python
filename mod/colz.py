@@ -2,7 +2,6 @@
 # https://github.com/carloscabo/colz-python
 # V 0.2.1 WIP
 
-import sys
 import math
 
 class Colz:
@@ -243,6 +242,13 @@ class Colz:
             s = h[1]
             l = h[2]
             h = h[0]
+
+        if isinstance(h, int):
+            h /= 360.0
+        if isinstance(s, int):
+            s /= 100.0
+        if isinstance(l, int):
+            l /= 100.0
 
         r = l
         g = l
@@ -508,12 +514,13 @@ class Colz:
             l1 = hsl1[2]
             if len(hsl1) > 3:
                 a1 = hsl1[3]
-            if  isinstance( h1, int ):
-                h1 = h1 / 360.0
-            if  isinstance( s1, int ):
-                s1 = s1 / 100.0
-            if  isinstance( l1, int ):
-                l1 = l1 / 100.0
+
+        if  isinstance( h1, int ):
+            h1 = h1 / 360.0
+        if  isinstance( s1, int ):
+            s1 = s1 / 100.0
+        if  isinstance( l1, int ):
+            l1 = l1 / 100.0
 
         if isinstance( hsl2, Colz ):
             h2 = hsl2.h
@@ -526,12 +533,13 @@ class Colz:
             l2 = hsl2[2]
             if len(hsl2) > 3:
                 a2 = hsl2[3]
-            if  isinstance( h2, int ):
-                h2 = h2 / 360.0
-            if  isinstance( s2, int ):
-                s2 = s2 / 100.0
-            if  isinstance( l2, int ):
-                l2 = l2 / 100.0
+
+        if  isinstance( h2, int ):
+            h2 = h2 / 360.0
+        if  isinstance( s2, int ):
+            s2 = s2 / 100.0
+        if  isinstance( l2, int ):
+            l2 = l2 / 100.0
 
         h3 = Colz.hueLerp( h1, h2, amt )
         s3 = Colz.linearLerp( s1, s2, amt )
